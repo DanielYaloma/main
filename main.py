@@ -1,9 +1,6 @@
-number = 212122
-digits = str(number)
-if len(digits) == 6:
-    if sum(map(int, digits[:3])) == sum(map(int, digits[3:])):
-        print("Счастливый билет")
-    else:
-        print("Несчастливый билет")
+year = 2024
+
+if (year % 400 == 0) or (year % 4 == 0 and year % 100 != 0):
+    print("Високосный год")
 else:
-    print("Введите шестизначное число.")
+    print("Обычный год")
