@@ -1,3 +1,5 @@
+# Задача 1
+
 documents = [
     {'type': 'passport', 'number': '2207 876234', 'name': 'Василий Гупкин'},
     {'type': 'invoice', 'number': '11-2', 'name': 'Геннадий Покемонов'},
@@ -30,3 +32,40 @@ while True:
         break
 
 # Незнаю что еще в комментариях написать, но вроде описал что делал)
+
+
+
+# Задача 2
+
+documents = [
+    {'type': 'passport', 'number': '2207 876234', 'name': 'Василий Гупкин'},
+    {'type': 'invoice', 'number': '11-2', 'name': 'Геннадий Покемонов'},
+    {'type': 'insurance', 'number': '10006', 'name': 'Аристарх Павлов'}
+]
+
+directories = {
+    '1': ['2207 876234', '11-2'],
+    '2': ['10006'],
+    '3': []
+}
+
+def find_document_location(doc_number):
+    for shelf, docs in directories.items():
+        if doc_number in docs:
+            return shelf
+    return None
+
+while True:
+    command = input("Введите команду (s для поиска, q для выхода): ").strip().lower()
+    if command == 'q':
+        print("Выход из программы.")
+        break
+    elif command == 's':
+        doc_number = input("Введите номер документа: ").strip()
+        shelf = find_document_location(doc_number)
+        if shelf:
+            print(f"Документ хранится на полке: {shelf}")
+        else:
+            print("Документ не найден.")
+    else:
+        print("Неизвестная команда. Попробуйте снова.")
