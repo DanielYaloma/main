@@ -1,73 +1,25 @@
-# Задача 1
+visits_file = open('visit_log.csv', 'r')
+funnel_file = open('funnel.csv', 'w')
 
-documents = [
-    {'type': 'passport', 'number': '2207 876234', 'name': 'Василий Гупкин'},
-    {'type': 'invoice', 'number': '11-2', 'name': 'Геннадий Покемонов'},
-    {'type': 'insurance', 'number': '10006', 'name': 'Аристарх Павлов'}
-]
-directories = {
-    '1': ['2207 876234', '11-2'],
-    '2': ['10006'],
-    '3': []
-}
+funnel_file.write('user_id,source,category\n')
 
-# создал словарь, где ключи это номера полок,а значения это списки номеров документа.
-def find_owner(doc_number, docs):
-    for doc in docs:
-        if doc['number'] == doc_number:
-            return doc['name']
-    return None
+header = visits_file.readline()
 
-# бесконечный цикл для ввода команд, ищет владельца документа по номеру или выходил по команде 'q'
-while True:
-    command = input("Введите команду:\n").strip().lower()
-    if command == 'p':
-        number = input("Введите номер документа:\n").strip()
-        owner = find_owner(number, documents)
-        if owner:
-            print(f"Владелец документа: {owner}")
-        else:
-            print("Документ не найден.")
-    elif command == 'q':
-        break
+for line in visits_file:
+    data = line.strip().split(',')
 
-# Незнаю что еще в комментариях написать, но вроде описал что делал)
+    if len(data) >= 3:
+        user_id = data[0]
+        source = data[1]
+        path = data[2]
 
+        if 'category_' in path and '_checkout' in path:
 
+            start_index = path.find('category_') + 9  # 9 - длина "category_"
+            end_index = path.find('_checkout')
 
-# Задача 2
+            category = path[start_index:end_index]
+            funnel_file.write(f'{user_id},{source},{category}\n')
 
-documents = [
-    {'type': 'passport', 'number': '2207 876234', 'name': 'Василий Гупкин'},
-    {'type': 'invoice', 'number': '11-2', 'name': 'Геннадий Покемонов'},
-    {'type': 'insurance', 'number': '10006', 'name': 'Аристарх Павлов'}
-]
-
-directories = {
-    '1': ['2207 876234', '11-2'],
-    '2': ['10006'],
-    '3': []
-}
-
-def find_document_location(doc_number):
-    for shelf, docs in directories.items():
-        if doc_number in docs:
-            return shelf
-    return None
-
-while True:
-    command = input("Введите команду (s для поиска, q для выхода): ").strip().lower()
-    if command == 'q':
-        print("Выход из программы.")
-        break
-    elif command == 's':
-        doc_number = input("Введите номер документа: ").strip()
-        shelf = find_document_location(doc_number)
-        if shelf:
-            print(f"Документ хранится на полке: {shelf}")
-        else:
-            print("Документ не найден.")
-    else:
-        print("Неизвестная команда. Попробуйте снова.")
-
-# Досвидания!
+visits_file.close()
+funnel_file.close()
